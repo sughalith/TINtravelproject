@@ -1,27 +1,8 @@
 <?php
+session_start();
 include 'connection.php';
- error_reporting(0);
-  $name = $_POST['login'];
-  $email = $_POST['email'];
-  $pass = $_POST['haslo'];
-  
-  if(!$_POST['rejestruj']){
-	
-  echo "All feilds must be filled";
-  
-}
 
-else {
- 
-$sql = "INSERT INTO userdata (fname,email,pass,isAdmin)
-VALUES ('$name', '$email', '$pass', '0')";
 
-if (mysqli_query($conn, $sql)) {
-    echo "<h1><center>New record created successfully</center></h1>";
-} else {
-    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-}
-}
 ?>
 
 <!DOCTYPE HTML>
@@ -66,16 +47,29 @@ if (mysqli_query($conn, $sql)) {
 		</div>
 		
         <div class="content">
-            <form method="POST" action="signup.php">
-                Login: <input type="text" name="login" required><br><br>
-                Hasło: <input type="password" name="haslo" required><br>
-                Email: <input type="text" name="email" required><br>
-                <input type="submit" value="Utwórz konto" name="rejestruj">
-            </form>	
-		</div>
-		
+            <form method="POST" action="login.php">
+                Login: <input type="text" name="login"><br><br>
+                Hasło: <input type="password" name="haslo"><br>
+                <input type="submit" value="Zaloguj się" name="log">
+            </form>
+        </div>
+        <?php
+if (isset($_POST['log']))
+{
+$login = $_POST['login'];
+$password = $_POST['haslo'];
 
-		
+if (mysql_num_rows(mysql_query("SELECT fname, pass FROM userdata WHERE login = '".$login."' AND password = '".$password."';")))
+{
+
+    $_SESSION['logged'] = true;
+
+    header('Location: index.php');
+}
+else echo "<p>Wpisano złe dane.</p>";
+}
+
+        ?>
 		<div class="footer">Footer</div>
 	</div>
 	
