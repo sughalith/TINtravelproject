@@ -34,14 +34,28 @@ include 'connection.php';
 		</div>
 		<div class="nav">
 			<ol>
-				<li><a href="index.php">Strona główna</a>
-				</li>
-				<li><a href="#">Przeglądaj oferty</a>
-				</li>
-				<li><a href="login.html">Zaloguj się</a>
-				</li>
-				<li><a href="signup.php">Zarejestruj się</a>
-				</li>
+			<li><a href="index.php">Strona główna</a>
+			</li>
+			<li><a href="#">Przeglądaj oferty</a>
+			</li>
+			<?php
+			if(!isset($_SESSION['isAdmin']))
+				echo "<li><a href='login.php'>Zaloguj się</a></li>";
+			?>
+			<li><a href="signup.php">Zarejestruj się</a>
+			</li>
+			<li><a href="addtrip.php">Dodaj wycieczkę</a>
+			</li>
+			<?php
+			if($_SESSION['isAdmin'] == 1)
+				echo "<li><a href='deletetrip.php'>Usuń wycieczkę</a>"
+			?>
+			</li>
+			<?php
+			if(isset($_SESSION['isAdmin']))
+				echo "<li><a href='logout.php'>Wylogj</a></li>";
+			?>
+			
 			</ol>
 		
 		</div>
@@ -54,20 +68,24 @@ include 'connection.php';
             </form>
         </div>
         <?php
-if (isset($_POST['log']))
-{
-$login = $_POST['login'];
-$password = $_POST['haslo'];
+		if (isset($_POST['log']))
+		{
+		$login = $_POST['login'];
+		$password = $_POST['haslo'];
 
-if (mysql_num_rows(mysql_query("SELECT fname, pass FROM userdata WHERE login = '".$login."' AND password = '".$password."';")))
-{
+		$result = mysqli_query($conn, "SELECT fname, pass, isAdmin FROM userdata WHERE fname = '".$login."' AND pass = '".$password."';");
 
-    $_SESSION['logged'] = true;
+		if (mysqli_num_rows($result) > 0) {
 
-    header('Location: index.php');
-}
-else echo "<p>Wpisano złe dane.</p>";
-}
+			while($row = mysqli_fetch_assoc($result)) {
+				$_SESSION['isAdmin'] = $row['isAdmin'];
+				 }
+
+
+			header('Location: index.php');
+		}
+		else echo "<p>Wpisano złe dane.</p>";
+		}
 
         ?>
 		<div class="footer">Footer</div>

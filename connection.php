@@ -4,9 +4,8 @@
 	$dbuser = "root";
 	$dbpass = "";
 	$db 	= "travel";
-	$dbport = ":8889";
 	
-	$conn = new mysqli ($dbhost,$dbuser,$dbpass,$db, $dbport);
+	$conn = new mysqli ($dbhost,$dbuser,$dbpass,$db);
 	
 	if($conn->connect_error){
 		echo "Connection was failed";

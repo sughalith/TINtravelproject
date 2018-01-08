@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE HTML>
 <html lang="pl">
 <head>
@@ -31,14 +34,23 @@
 				</li>
 				<li><a href="#">Przeglądaj oferty</a>
 				</li>
-				<li><a href="login.html">Zaloguj się</a>
-				</li>
+				<?php
+				if(!isset($_SESSION['isAdmin']))
+					echo "<li><a href='login.php'>Zaloguj się</a></li>";
+				?>
 				<li><a href="signup.php">Zarejestruj się</a>
 				</li>
 				<li><a href="addtrip.php">Dodaj wycieczkę</a>
 				</li>
-				<li><a href="deletetrip.php">Usuń wycieczkę</a>
+				<?php
+				if($_SESSION['isAdmin'] == 1)
+					echo "<li><a href='deletetrip.php'>Usuń wycieczkę</a>"
+				?>
 				</li>
+				<?php
+				if(isset($_SESSION['isAdmin']))
+					echo "<li><a href='logout.php'>Wylogj</a></li>";
+				?>
 				
 			</ol>
 		

@@ -50,14 +50,28 @@ if (mysqli_query($conn, $sql)) {
 		</div>
 		<div class="nav">
 			<ol>
-				<li><a href="index.php">Strona główna</a>
-				</li>
-				<li><a href="#">Przeglądaj oferty</a>
-				</li>
-				<li><a href="login.html">Zaloguj się</a>
-				</li>
-				<li><a href="signup.php">Zarejestruj się</a>
-				</li>
+			<li><a href="index.php">Strona główna</a>
+			</li>
+			<li><a href="#">Przeglądaj oferty</a>
+			</li>
+			<?php
+			if(!isset($_SESSION['isAdmin']))
+				echo "<li><a href='login.php'>Zaloguj się</a></li>";
+			?>
+			<li><a href="signup.php">Zarejestruj się</a>
+			</li>
+			<li><a href="addtrip.php">Dodaj wycieczkę</a>
+			</li>
+			<?php
+			if($_SESSION['isAdmin'] == 1)
+				echo "<li><a href='deletetrip.php'>Usuń wycieczkę</a>"
+			?>
+			</li>
+			<?php
+			if(isset($_SESSION['isAdmin']))
+				echo "<li><a href='logout.php'>Wylogj</a></li>";
+			?>
+			
 			</ol>
 		
 		</div>
