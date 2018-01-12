@@ -10,10 +10,4 @@
 	if($conn->connect_error){
 		echo "Connection was failed";
 	}
-	
-	else{
-		
-		echo "Connection made";
-		
-	}
 ?>

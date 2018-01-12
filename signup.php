@@ -1,4 +1,5 @@
 <?php
+session_start();
 include 'connection.php';
  error_reporting(0);
   $name = $_POST['login'];
@@ -53,28 +54,37 @@ if (mysqli_query($conn, $sql)) {
 		</div>
 		<div class="nav">
 			<ol>
-			<li><a href="index.php">Strona główna</a>
-			</li>
-			<li><a href="#">Przeglądaj oferty</a>
-			</li>
-			<?php
-			if(!isset($_SESSION['isAdmin']))
-				echo "<li><a href='login.php'>Zaloguj się</a></li>";
-			?>
-			<li><a href="signup.php">Zarejestruj się</a>
-			</li>
-			<li><a href="addtrip.php">Dodaj wycieczkę</a>
-			</li>
-			<?php
-			if($_SESSION['isAdmin'] == 1)
-				echo "<li><a href='deletetrip.php'>Usuń wycieczkę</a>"
-			?>
-			</li>
-			<?php
-			if(isset($_SESSION['isAdmin']))
-				echo "<li><a href='logout.php'>Wylogj</a></li>";
-			?>
-			
+				<li><a href="index.php">Strona główna</a>
+				<?php
+				if(!isset($_SESSION['isAdmin']))
+					echo "<li><a href='login.php'>Zaloguj się</a>";
+				?>
+				<?php
+				if(!isset($_SESSION['isAdmin']))
+				echo "<li><a href='signup.php'>Zarejestruj się</a>"
+				?>
+				<?php
+				if(isset($_SESSION['isAdmin']))
+				echo "<li><a href='addtrip.php'>Dodaj wycieczkę</a>"
+				
+				?>
+				<?php
+				if(isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 1)
+					echo "<li><a href='deletetrip.php'>Usuń wycieczkę</a>"
+				?>
+				<?php
+				if(isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 1)
+					echo "<li><a href='deleteuser.php'>Usuń użytkownika</a>"
+				?>
+				<?php
+				if(isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 1)
+					echo "<li><a href='edittrip.php'>Edytuj wycieczkę</a>"
+				?>
+				<?php
+				if(isset($_SESSION['isAdmin']))
+					echo "<li><a href='logout.php'>Wyloguj</a>";
+				?>
+				
 			</ol>
 		
 		</div>

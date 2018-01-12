@@ -1,6 +1,25 @@
 <?php
 session_start();
+include 'connection.php';
+ error_reporting(0);
+  $id = $_POST['id'];
+  
+  if(!$_POST['edittrip']){
+	
+  echo "All feilds must be filled";
+  
+}
+
+else {
+ 
+$sql = "SELECT * FROM trip WHERE id = '$id'";
+
+if (!mysqli_query($conn, $sql)) {
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+}
+}
 ?>
+
 <!DOCTYPE HTML>
 <html lang="pl">
 <head>
@@ -62,26 +81,29 @@ session_start();
 				?>
 				
 			</ol>
+		
 		</div>
 		
-		<div class="content">
-	<?php
+        <div class="content">
+            <form method="POST" action="edittrip.php">
+                Podaj id wycieczki: <input type="text" name="id" required><br>			
+                <input type="submit" value="Edytuj wycieczkę" name="edittrip">
+            </form>	
+			
+			<?php
 			include 'connection.php';
-			
-			
-			
-			$sql = "SELECT * FROM trip";
+			$sql = "SELECT * FROM trip WHERE id = '$id'";
 			$result = mysqli_query($conn, $sql);
 
-		if (mysqli_num_rows($result) > 0) {
+			if (mysqli_num_rows($result) > 0) {
 		   
 			while($row = mysqli_fetch_assoc($result)) {
-				echo  "<br>" . "  Cel: " . $row["cel"].  " <br> " .  "Opis: " . $row["opis"] .  "<br>" . "Czar trwania: " . $row["trwanie"]. " dni"."<br><br>";
+			echo  " <br> " . "ID: " . $row["id"]. "<br>" . "  Cel: " . $row["cel"].  " <br> " .  "Opis: " . $row["opis"] .  "<br>" . "Czar trwania: " . $row["trwanie"]. "<br>" . "Test: " . $row["zdjecie"] .  "<br><br>";
 			 }
-		} 	else {
-				echo "<h3><center>No user data found!<center></h3>";
+			} else {
+			echo "<h3><center>No user data found!<center></h3>";
 			}
-	?>
+			?>
 		</div>
 		
 

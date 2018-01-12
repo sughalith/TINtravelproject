@@ -1,10 +1,10 @@
 <?php
+session_start();
 include 'connection.php';
  error_reporting(0);
   $cel = $_POST['cel'];
   $opis = $_POST['opis'];
   $trwanie = $_POST['trwanie'];
-  $test = $_POST['test'];
   
   if(!$_POST['addtrip']){
 	
@@ -14,8 +14,8 @@ include 'connection.php';
 
 else {
  
-$sql = "INSERT INTO trip (cel,opis,trwanie,zdjecie)
-VALUES ('$cel', '$opis', '$trwanie', '$test')";
+$sql = "INSERT INTO trip (cel,opis,trwanie)
+VALUES ('$cel', '$opis', '$trwanie')";
 
 if (mysqli_query($conn, $sql)) {
     echo "<h1><center>New record created successfully</center></h1>";
@@ -52,30 +52,39 @@ if (mysqli_query($conn, $sql)) {
 
 			</div>
 		</div>
-			<div class="nav">
+		<div class="nav">
 			<ol>
-			<li><a href="index.php">Strona główna</a>
-			</li>
-			<li><a href="#">Przeglądaj oferty</a>
-			</li>
-			<?php
-			if(!isset($_SESSION['isAdmin']))
-				echo "<li><a href='login.php'>Zaloguj się</a></li>";
-			?>
-			<li><a href="signup.php">Zarejestruj się</a>
-			</li>
-			<li><a href="addtrip.php">Dodaj wycieczkę</a>
-			</li>
-			<?php
-			if($_SESSION['isAdmin'] == 1)
-				echo "<li><a href='deletetrip.php'>Usuń wycieczkę</a>"
-			?>
-			</li>
-			<?php
-			if(isset($_SESSION['isAdmin']))
-				echo "<li><a href='logout.php'>Wylogj</a></li>";
-			?>
-			
+				<li><a href="index.php">Strona główna</a>
+				<?php
+				if(!isset($_SESSION['isAdmin']))
+					echo "<li><a href='login.php'>Zaloguj się</a>";
+				?>
+				<?php
+				if(!isset($_SESSION['isAdmin']))
+				echo "<li><a href='signup.php'>Zarejestruj się</a>"
+				?>
+				<?php
+				if(isset($_SESSION['isAdmin']))
+				echo "<li><a href='addtrip.php'>Dodaj wycieczkę</a>"
+				
+				?>
+				<?php
+				if(isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 1)
+					echo "<li><a href='deletetrip.php'>Usuń wycieczkę</a>"
+				?>
+				<?php
+				if(isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 1)
+					echo "<li><a href='deleteuser.php'>Usuń użytkownika</a>"
+				?>
+				<?php
+				if(isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 1)
+					echo "<li><a href='edittrip.php'>Edytuj wycieczkę</a>"
+				?>
+				<?php
+				if(isset($_SESSION['isAdmin']))
+					echo "<li><a href='logout.php'>Wyloguj</a>";
+				?>
+				
 			</ol>
 		
 		</div>
@@ -84,8 +93,7 @@ if (mysqli_query($conn, $sql)) {
             <form method="POST" action="addtrip.php">
                 Cel: <input type="text" name="cel" required><br><br>
                 Opis: <input type="text" name="opis" required><br><br>
-                Czas trwania: <input type="text" name="trwanie" required><br><br>
-				test: <input type="text" name="test" required><br><br>				
+                Czas trwania: <input type="text" name="trwanie" required><br><br>			
                 <input type="submit" value="Utwórz wycieczkę" name="addtrip">
             </form>	
 		</div>
