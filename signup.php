@@ -6,22 +6,20 @@ include 'connection.php';
   $email = $_POST['email'];
   $pass = $_POST['haslo'];
   
-  if(!$_POST['rejestruj']){
-	
-  echo "All feilds must be filled";
-  
+  if($_POST['rejestruj']){
+ 
+	$sql = "INSERT INTO userdata (fname,email,pass,isAdmin)
+	VALUES ('$name', '$email', '$pass', '0')";
+
+	if (mysqli_query($conn, $sql)) {
+		echo "<h1><center>New record created successfully</center></h1>";
+	} else {
+		echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+	}
 }
 
 else {
- 
-$sql = "INSERT INTO userdata (fname,email,pass,isAdmin)
-VALUES ('$name', '$email', '$pass', '0')";
 
-if (mysqli_query($conn, $sql)) {
-    echo "<h1><center>New record created successfully</center></h1>";
-} else {
-    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-}
 }
 ?>
 

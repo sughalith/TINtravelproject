@@ -6,22 +6,20 @@ include 'connection.php';
   $opis = $_POST['opis'];
   $trwanie = $_POST['trwanie'];
   
-  if(!$_POST['addtrip']){
-	
-  echo "All feilds must be filled";
-  
+  if($_POST['addtrip']){
+ 
+	$sql = "INSERT INTO trip (cel,opis,trwanie)
+	VALUES ('$cel', '$opis', '$trwanie')";
+
+	if (mysqli_query($conn, $sql)) {
+		echo "<h1><center>New record created successfully</center></h1>";
+	} else {
+		echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+	}
 }
 
 else {
- 
-$sql = "INSERT INTO trip (cel,opis,trwanie)
-VALUES ('$cel', '$opis', '$trwanie')";
 
-if (mysqli_query($conn, $sql)) {
-    echo "<h1><center>New record created successfully</center></h1>";
-} else {
-    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-}
 }
 ?>
 
